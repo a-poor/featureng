@@ -16,4 +16,6 @@ def get_date(d: dt.datetime):
 def get_time(d: dt.datetime):
     return d.time()
 
-
+def to_ordinal(d: dt.datetime):
+    return d.toordinal()
+    
