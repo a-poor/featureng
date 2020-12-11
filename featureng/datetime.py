@@ -1,8 +1,8 @@
 
-from typing import Union
-
 import time
 import datetime as dt
+
+from typing import Union
 
 def is_weekend(d: Union[dt.datetime,dt.date]):
     return d.weekday() >= 5
@@ -18,4 +18,3 @@ def get_time(d: dt.datetime):
 
 def to_ordinal(d: dt.datetime):
     return d.toordinal()
-    
