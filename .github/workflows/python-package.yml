@@ -30,7 +30,7 @@ jobs:
       env:
         GCP_AUTH_CREDS: ${{ secrets.GCP_AUTH_CREDS }}
       run: |
-        export GOOGLE_APPLICATION_CREDENTIALS=/keyfile.json
+        export GOOGLE_APPLICATION_CREDENTIALS=$PWD/keyfile.json
         echo $GCP_AUTH_CREDS > $GOOGLE_APPLICATION_CREDENTIALS
     - name: Test with pytest
       run: |
