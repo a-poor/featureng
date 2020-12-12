@@ -2,4 +2,4 @@
 
 _created by Austin Poor_
 
-A library for feature engineering _aka_ Featur-Eng (pronounced _featur-ing_).
+`featureng` (pronounced _featur-ing_) is a library for feature engineering.
