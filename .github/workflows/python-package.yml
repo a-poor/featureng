@@ -26,12 +26,16 @@ jobs:
         python -m pip install flake8 pytest
         python -m pip install -e .
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: GCP Auth
+    # - name: GCP Auth
+    #   env:
+    #     GCP_AUTH_CREDS: ${{ secrets.GCP_AUTH_CREDS }}
+    #   run: |
+    #     export GOOGLE_APPLICATION_CREDENTIALS=$PWD/keyfile.json
+    #     echo $GCP_AUTH_CREDS > $GOOGLE_APPLICATION_CREDENTIALS
+    - name: Test with pytest
       env:
         GCP_AUTH_CREDS: ${{ secrets.GCP_AUTH_CREDS }}
       run: |
         export GOOGLE_APPLICATION_CREDENTIALS=$PWD/keyfile.json
         echo $GCP_AUTH_CREDS > $GOOGLE_APPLICATION_CREDENTIALS
-    - name: Test with pytest
-      run: |
         pytest
