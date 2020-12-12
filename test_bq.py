@@ -8,7 +8,7 @@ def test_gcp_auth():
     from google.cloud import bigquery
 
     # Get the path to the credentials
-    creds = Path(os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"))
+    creds = Path("./keyfile.json")
     assert creds.exists()
 
     # Try to load the json file
