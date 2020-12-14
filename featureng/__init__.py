@@ -6,3 +6,5 @@ from . import interaction
 from . import outliers
 from . import external
 from . import bq
+
+__version__ = "0.0.1"
