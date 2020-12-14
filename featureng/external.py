@@ -9,6 +9,8 @@ from .exceptions import ApiRequestError, ApiResponseError
 
 class OpenWeather:
     def __init__(self,key=None):
+        """
+        """
         if key is None:
             key = os.environ.get("OPEN_WEATHER_API_KEY")
         if key is None:
@@ -17,6 +19,8 @@ class OpenWeather:
         self.base_url = "https://api.census.gov/data/"
 
     def byCity(self,city,state_code=None,counry_code="US",start=None,end=None,cnt=None,type_="hour",):
+        """
+        """
         # Validate the location inputs
         if state_code is None:
             if city.count(",") != 2:
@@ -54,6 +58,8 @@ class OpenWeather:
 
 class UsCensus:
     def __init__(self,key=None):
+        """
+        """
         if key is None:
             key = os.environ.get("US_CENSUS_API_KEY")
         if key is None:
