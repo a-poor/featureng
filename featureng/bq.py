@@ -6,33 +6,50 @@ from . import exceptions
 
 from typing import Union, List, Dict, Sequence
 
+def get_client(client: Union[str, bigquery.client.Client] = None):
+    if isinstance(client,bigquery.client.Client):
+        return client
+    elif isinstance(client,str):
+        return bigquery.Client.from_service_account_json(client)
+    else:
+        return bigquery.Client()
 
-class BigQueryClient:
-    def __init__(self, client: Union[str, bigquery.client.Client] = None):
-        """BigQuery client
-
-        :param client:
-        """
-        if isinstance(client,bigquery.client.Client):
-            self.client = client
-        elif isinstance(client,str):
-            self.client = bigquery.Client.from_service_account_json(client)
-        else:
-            self.client = bigquery.Client()
-
-    def _query(self, q, *args, **kwargs):
-        res = self.client.query(q,*args,**kwargs)
-        return [dict(r) for r in res]
-
-
-class CensusAcsClient(BigQueryClient):
-    def __init__(self):
-        super().__init__(*args,**kwargs)
-        self.table_ids = self.getTableNames()
-
-    def getTableNames(self):
-        return [t.table_id for t in self.client.list_tables(
-            "bigquery-public-data.census_bureau_acs")]
-
-    def query(self):
-        pass
+def get_zip_population(zipcode: Union[str,Sequence[str]], client: Union[str, bigquery.client.Client] = None):
+    client = get_client(client)
+    client.query("""
+        SELECT *
+        FROM (
+          SELECT 2018 year, total_pop
+          FROM `bigquery-public-data`.census_bureau_acs.zip_codes_2018_5yr
+          WHERE geo_id = "11377"
+          UNION ALL
+          SELECT 2017 year, total_pop
+          FROM `bigquery-public-data`.census_bureau_acs.zip_codes_2017_5yr
+          WHERE geo_id = "11377"
+          UNION ALL
+          SELECT 2016 year, total_pop
+          FROM `bigquery-public-data`.census_bureau_acs.zip_codes_2016_5yr
+          WHERE geo_id = "11377"
+          UNION ALL
+          SELECT 2015 year, total_pop
+          FROM `bigquery-public-data`.census_bureau_acs.zip_codes_2015_5yr
+          WHERE geo_id = "11377"
+          UNION ALL
+          SELECT 2014 year, total_pop
+          FROM `bigquery-public-data`.census_bureau_acs.zip_codes_2014_5yr
+          WHERE geo_id = "11377"
+          UNION ALL
+          SELECT 2013 year, total_pop
+          FROM `bigquery-public-data`.census_bureau_acs.zip_codes_2013_5yr
+          WHERE geo_id = "11377"
+          UNION ALL
+          SELECT 2012 year, total_pop
+          FROM `bigquery-public-data`.census_bureau_acs.zip_codes_2012_5yr
+          WHERE geo_id = "11377"
+          UNION ALL
+          SELECT 2011 year, total_pop
+          FROM `bigquery-public-data`.census_bureau_acs.zip_codes_2011_5yr
+          WHERE geo_id = "11377"
+        ) multi_year
+        ORDER BY year;
+    """)
