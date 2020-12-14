@@ -6,7 +6,7 @@ name: Python package
 on:
   push:
     branches: [ main ]
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,9 +33,5 @@ jobs:
         export GOOGLE_APPLICATION_CREDENTIALS=$PWD/keyfile.json
         echo $GCP_AUTH_CREDS > $GOOGLE_APPLICATION_CREDENTIALS
     - name: Test with pytest
-      # env:
-      #   GCP_AUTH_CREDS: ${{ secrets.GCP_AUTH_CREDS }}
       run: |
-        # export GOOGLE_APPLICATION_CREDENTIALS=$PWD/keyfile.json
-        # echo $GCP_AUTH_CREDS > $GOOGLE_APPLICATION_CREDENTIALS
         pytest
